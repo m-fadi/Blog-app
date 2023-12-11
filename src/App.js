@@ -3,7 +3,7 @@ import "./App.css";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Article from "./Pages/Article";
-import ArticleList from "./Pages/ArticleList";
+import ArticlesList from "./Pages/ArticlesList";
 import NotFound from "./Pages/NotFound";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/articles/:articleId" element={<Article />} />
-                    <Route path="/articles" element={<ArticleList />} />
+                    <Route path="/articles" element={<ArticlesList />} />
                     <Route path="notFound" element={<NotFound />} />
                 </Routes>
             </BrowserRouter>
