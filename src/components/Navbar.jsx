@@ -5,7 +5,7 @@ import About from '../Pages/About'
 import { Link } from "react-router-dom";
 function Navbar() {
   return (
-      <div>
+      <div className='navbar'>
           <ul>
               <li>
                   <Link to="/">Home</Link>
