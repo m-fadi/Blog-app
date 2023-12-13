@@ -8,9 +8,7 @@ function Article() {
     const paragraph=article.content.map(paragraph=><p> {paragraph}</p>)
   return (
       <div>
-          {" "}
-         
-          <h2>{article.title}</h2>
+         <h2>{article.title}</h2>
           <p >{paragraph}</p>
       </div>
   );
