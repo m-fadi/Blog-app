@@ -1,23 +1,38 @@
-import React from 'react'
-import Home from '../Pages/Home'
-import ArticlesList from '../Pages/ArticlesList'
-import About from '../Pages/About'
 import { Link } from "react-router-dom";
 function Navbar() {
   return (
-      <div className='navbar'>
-          <ul>
+      <nav className="navbar">
+          <ul className="nav-links">
               <li>
-                  <Link to="/">Home</Link>
+                  <Link
+                      
+                      className="nav-link"
+                      to="/"
+                  >
+                      Home
+                  </Link>
               </li>
               <li>
-                  <Link to="/articles">Articles</Link>
+                  <Link
+                      
+                      className="nav-link"
+                      to="/articles"
+                  >
+                      Articles
+                  </Link>
               </li>
               <li>
-                  <Link to="/about"> About</Link>
+                  <Link
+                      
+                      className="nav-link"
+                      to="/about"
+                  >
+                      {" "}
+                      About
+                  </Link>
               </li>
           </ul>
-      </div>
+      </nav>
   );
 }
 
