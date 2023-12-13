@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import articleContent from "./articleContent";
 
+
 function Article() {
     let {articleId}=useParams()
     const article=articleContent.find(article=> article.name===articleId)
