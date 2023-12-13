@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import articleContent from "./articleContent";
+
+
 function ArticlesListPage() {
     let articles = articleContent.map((article) => (
         <div className="article" key={article.name}>
