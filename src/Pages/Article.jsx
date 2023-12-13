@@ -8,7 +8,7 @@ function Article() {
   return (
       <div>
           {" "}
-          <h1>{article.name}</h1>
+         
           <h2>{article.title}</h2>
           <p className="articleBody">{article.content}</p>
       </div>
