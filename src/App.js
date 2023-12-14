@@ -21,6 +21,7 @@ function App() {
                     <Route path="/articles" element={<ArticlesList />} />
                     
                     <Route path="*" element={<NotFoundPage />} />
+                     {/* // the Route * is any route that is not defined */}
                 </Routes>
                 </div>
                 </div>
