@@ -4,7 +4,7 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Article from "./Pages/Article";
 import ArticlesList from "./Pages/ArticlesList";
-import NotFound from "./Pages/NotFound";
+import NotFoundPage from "./Pages/NotFoundPage";
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -19,7 +19,8 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/articles/:articleId" element={<Article />} />
                     <Route path="/articles" element={<ArticlesList />} />
-                    <Route path="notFound" element={<NotFound />} />
+                    
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
                 </div>
                 </div>
