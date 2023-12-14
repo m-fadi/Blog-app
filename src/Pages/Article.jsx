@@ -8,9 +8,9 @@ function Article() {
     const article=articleContent.find(article=> article.name===articleId)
     const paragraph=article.content.map(paragraph=><p> {paragraph}</p>)
   return (
-      <div>
-         <h2>{article.title}</h2>
-          <p >{paragraph}</p>
+      <div >
+          <h2>{article.title}</h2>
+          <p>{paragraph}</p>
       </div>
   );
 }
