@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function ArticleBanner({ articles }) {
-    
     let articleItems = articles.map((article) => (
         <div className="article" key={article.name}>
             <Link
