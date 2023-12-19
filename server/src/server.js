@@ -29,29 +29,34 @@ let articleInfo = [
 ];
 
 app.put("/api/articles/:name/upvote", (req, res) => {
-     const { name } = req.params;
+    const { name } = req.params;
     console.log(name);
-    // const upvotedArticle = articleInfo.map((article) => {
-    //     if (article.name === name) {
-    //         console.log(article);
-    //         return ({ ...article, upvotes: upvotes + 1 });
-    //     } else {
-    //         return article;
-    //    }
+    const upvotedArticle = articleInfo.find((article) => article.name === name);
+    if (upvotedArticle) {
+        upvotedArticle.upvotes += 1;
+        //modifyedUpvotes(name, upvotedArticle.upvotes)
+        res.send(` the article ${name}  has ${upvotedArticle.upvotes} upvotes`);
+        res.send(`${upvotedArticle.name}`);
+    } else res.send(" article doesn't exist");
+});
 
-   // });
-
-   const upvotedArticle = articleInfo.find((article) => 
-        article.name === name 
-);
-
-if (upvotedArticle) {
-    upvotedArticle.upvotes += 1;
-//modifyedUpvotes(name, upvotedArticle.upvotes)
-    res.send(` the article ${name}  has ${upvotedArticle.upvotes} upvotes`);
-    res.send("`${upvotedArticle.name}`");
-} else res.send(" article doesn't exist");
-})
+app.post("/api/articles/:name/comments", (req, res) => {
+    console.log(req.body);
+    const { postedBy, text } = req.body;
+    const { name } = req.params;
+    const article = articleInfo.find(
+        (article) => article.name === name
+    );
+    if (article) {
+        if (text) {
+            article.comments.push(text, postedBy);
+            res.send(article.comments);
+            
+            
+        } else res.send(``);
+        console.log(article.comments);
+    } else res.send(" article doesn't exist");
+});
 
 // const modifyedUpvotes=(name,upvotes) => {
 //    let updatedInfo= articleInfo.find((article)=>{
