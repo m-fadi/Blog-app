@@ -1,58 +1,48 @@
-// import { createRequire } from "module";
-// const require = createRequire(import.meta.url);
 import express from "express";
-import { MongoClient} from "mongodb";
+import { db, connectToDb } from "../mongo-db-data/db.js";
 const app = express();
 app.use(express.json());
 
-
-const client = new MongoClient("mongodb://0.0.0.0:27017");
-
-app.get("/api/articles/:name/upvote", async(req, res) => {
+app.get("/api/articles/:name", async (req, res) => {
     const { name } = req.params;
-    console.log(name);
-    
+    const article = await db.collection("articles").findOne({ name });
+    db.collection("articles").updateOne({ name }, { $set: { name } });
+    article
+        ? res.status(200).json(article)
+        : res.send(" article doesn't exist");
+});
 
-await client.connect();
-const db=client.db('blog')
-const article=await db.collection('articles').findOne({name})
-article ? res.status(200).json(article) : res.send(" article doesn't exist");
-})
+//upvotes
+app.put("/api/articles/:name/upvote", async (req, res) => {
+    const { name } = req.params;
+    await db
+        .collection("articles")
+        .updateOne({ name }, { $inc: { upvotes: 1 } });
+    const article = await db.collection("articles").findOne({ name });
 
+    article
+        ? res.status(200).json(article)
+        : res.send(" article doesn't exist");
+});
 
-
-app.post("/api/articles/:name/comments", (req, res) => {
-    console.log(req.body);
+//comments
+app.post("/api/articles/:name/comments", async (req, res) => {
+    const { name } = req.params;
     const { postedBy, text } = req.body;
-    const { name } = req.params;
-    const article = db.find({ name: name });
-    if (article) {
-        if (text) {
-            article.comments.push(text, postedBy);
-            res.send(article.comments);
-        } else res.send(``);
-        console.log(article.comments);
-    } else res.send(" article doesn't exist");
+    await db.collection("articles").updateOne(
+        { name },
+        {
+            $push: { comments: { postedBy, text } },
+        }
+    );
+    const article = await db.collection("articles").findOne({ name });
+
+    article
+        ? res.status(200).json(article)
+        : res.send(" article doesn't exist");
+});
+connectToDb(() => {
+    app.listen(8000, () => console.log("listening on port 8000"));
 });
 
 
-app.listen(8000, () => console.log("listening on port 8000"));
-
-
-// let articleInfo = [
-//     {
-//         name: "learn-react",
-//         upvotes: 0,
-//         comments: []
-//     },
-//     {
-//         name: "learn-node",
-//         upvotes: 0,
-//         comments: []
-//     },
-//     {
-//         name: "mongodb",
-//         upvotes: 0,
-//         comments: []
-//     }
-// ]
