@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import articleContent from "./articleContent";
 import NotFoundPage from "./NotFoundPage";
 
 function Article() {
+    const { articleInfo, setArticleInfo } = useState({
+        comments: [],
+        upvotes: 0,
+    });
+    useEffect(()=>{
+        const response=await axios.get(`http://localhost:8000/api/articles/${articleId}`)
+    },[])
     let { articleId } = useParams();
     const article = articleContent.find(
         (article) => article.name === articleId
@@ -15,6 +22,7 @@ function Article() {
     return (
         <div>
             <h2>{article.title}</h2>
+            <p>this article has {articleInfo.upvotes} upvotes</p>
             <p>{paragraph}</p>
         </div>
     );
