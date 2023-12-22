@@ -1,88 +1,25 @@
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+// import { createRequire } from "module";
+// const require = createRequire(import.meta.url);
 import express from "express";
-const { getDb, connectToDb } = require("../mongo-db-data/db.cjs");
+import { MongoClient} from "mongodb";
 const app = express();
 app.use(express.json());
 
-//import {connectToDb,getDb} from '../mongo-db-data/db'
 
-let db;
-connectToDb((err) => {
-    if (!err) {
-        db = getDb();
-       
-    }
-});
+const client = new MongoClient("mongodb://0.0.0.0:27017");
 
-app.get("/b", (req, res) => {
+app.get("/api/articles/:name/upvote", async(req, res) => {
+    const { name } = req.params;
+    console.log(name);
     
-    let books = [];
 
-    db.collection("books")
-        .find()
-        .sort({ author: 1 })
-        .forEach((book) => books.push(book))
-        .then(() => {
-            res.status(200).json(books);
-        })
-        .catch(() => {
-            res.status(500).json({ error: "Could not fetch the documents" });
-        });
-});
+await client.connect();
+const db=client.db('blog')
+const article=await db.collection('articles').findOne({name})
+article ? res.status(200).json(article) : res.send(" article doesn't exist");
+})
 
 
-app.get("/input", (req, res) => {
-    res.send("what r u doing");
-});
-app.post("/input/:name", (req, res) => {
-    const { name } = req.params;
-    console.log(name);
-    res.send("wtf");
-});
-;
-
-let articleInfo = [
-    {
-        name: "learn-react",
-        upvotes: 0,
-        comments: []
-    },
-    {
-        name: "learn-node",
-        upvotes: 0,
-        comments: []
-    },
-    {
-        name: "mongodb",
-        upvotes: 0,
-        comments: []
-    }
-]
-
-app.put("/api/articles/:name/upvote", (req, res) => {
-    const { name } = req.params;
-    console.log(name);
-    // const upvotedArticle = db.articleInfo.find({name:name});
-    // if (upvotedArticle) {
-    //     db.upvotedArticle.upvotes += 1;
-    //     //modifyedUpvotes(name, upvotedArticle.upvotes)
-    //     res.send(` the article ${name}  has ${upvotedArticle.upvotes} upvotes`);
-    //     res.send(`${upvotedArticle.name}`);
-    // } else res.send(" article doesn't exist");
-    let articles = [];
-    //console.log(db.collection("articleInfo").find());
-    db.collection("articleInfo")
-        .find()
-        .forEach((article) => articles.push(article))
-        .then(() => {
-            console.log(articles)
-            res.status(200).json(articles);
-        })
-        .catch(() => {
-            res.status(500).json({ error: "Could not fetch the documents" });
-        });
-});
 
 app.post("/api/articles/:name/comments", (req, res) => {
     console.log(req.body);
@@ -98,15 +35,24 @@ app.post("/api/articles/:name/comments", (req, res) => {
     } else res.send(" article doesn't exist");
 });
 
-// const modifyedUpvotes=(name,upvotes) => {
-//    let updatedInfo= articleInfo.find((article)=>{
-//         if(article.name===name) return ({...article,upvotes:upvotes})
-//         else return article
-//     })
-//     articleInfo={...updatedInfo}
-//     console.log({articleInfo})
-//     return updatedInfo
-// }
+
 app.listen(8000, () => console.log("listening on port 8000"));
 
 
+// let articleInfo = [
+//     {
+//         name: "learn-react",
+//         upvotes: 0,
+//         comments: []
+//     },
+//     {
+//         name: "learn-node",
+//         upvotes: 0,
+//         comments: []
+//     },
+//     {
+//         name: "mongodb",
+//         upvotes: 0,
+//         comments: []
+//     }
+// ]
