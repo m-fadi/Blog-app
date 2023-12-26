@@ -43,7 +43,7 @@ function Article() {
              {article.content.map((paragraph, i) => (
                  <p key={i}>{paragraph}</p>
              ))}
-<h3>Comments: </h3>
+
              <CommentsList comments={articleInfo.comments} />
          </>
      );
