@@ -3,7 +3,7 @@ import React from 'react'
 function commentsList({comments}) {
     
     const commentsHtml = comments.map((comment,i) => (
-        <div key={i}>
+        <div key={i} className='comment'>
             
             <h4>{comment.postedBy}:</h4>
             <p>{comment.text}</p>
@@ -11,8 +11,7 @@ function commentsList({comments}) {
     ));
   return (
       <div>
-         
-          {commentsHtml}
+          <h3>Comments: </h3>;{commentsHtml}
       </div>
   );
 }
