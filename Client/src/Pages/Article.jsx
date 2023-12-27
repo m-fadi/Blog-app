@@ -1,54 +1,55 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import articleContent from "./articleContent";
 import NotFoundPage from "./NotFoundPage";
 import CommentsList from "../components/CommentsList";
+
 function Article() {
-     const [articleInfo, setArticleInfo] = useState({
-         upvotes: 0,
-         comments: [],
-     });
-     const { articleId } = useParams();
+    const [articleInfo, setArticleInfo] = useState({
+        upvotes: 0,
+        comments: [],
+    });
+    const { articleId } = useParams();
+    const handleUpvote = async () => {
+        const response = await axios.put(`/api/articles/${articleId}/upvote`);
+        const newArticleInfo = response.data;
+        setArticleInfo(newArticleInfo);
+        
+    };
 
-     useEffect(() => {
-         const loadArticleInfo = async () => {
-             const response = await axios.get(`/api/articles/${articleId}`);
-             const newArticleInfo = response.data;
-             setArticleInfo(newArticleInfo);
-             
-         };
+    useEffect(() => {
+        const loadArticleInfo = async () => {
+            const response = await axios.get(`/api/articles/${articleId}`);
 
-         loadArticleInfo();
-         console.log(articleInfo);
-     }, [articleId]);
+            setArticleInfo(response.data);
+        };
 
-     const article = articleContent.find((article) => article.name === articleId);
-// const commentsHtml=articleInfo.comments.map(comment=>{
-//     console.log(comment)
-//    return  <div>
-       
+        loadArticleInfo();
+        
+    }, []);
 
-//     </div>})
-    console.log( articleInfo.comments );
-     if (!articleInfo) {
-         return <NotFoundPage />;
-     }
+    if (!articleInfo) {
+        return <NotFoundPage />;
+    }
 
-     return (
-         <>
-             <h1>{articleInfo.name}</h1>
-             <p>This article has {articleInfo.upvotes} upvote(s)</p>
+    return (
+        <>
+            <h1>{articleInfo.name}</h1>
 
-             {article.content.map((paragraph, i) => (
-                 <p key={i}>{paragraph}</p>
-             ))}
+            <p>{articleInfo.content}</p>
 
-             <CommentsList comments={articleInfo.comments} />
-         </>
-     );
+            <div className="upvotes-section">
+                <p>This article has {articleInfo.upvotes} upvote(s)</p>
 
-     
+                <button onClick={handleUpvote}>UpVote</button>
+            </div>
+            <CommentsList
+                comments={articleInfo.comments}
+                articleId={articleInfo.name}
+                setArticleInfo={setArticleInfo}
+            />
+        </>
+    );
 }
 
 export default Article;
