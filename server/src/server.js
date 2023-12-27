@@ -5,8 +5,10 @@ app.use(express.json());
 
 app.get("/api/articles/:name", async (req, res) => {
     const { name } = req.params;
+    console.log("name of",name)
     const article = await db.collection("articles").findOne({ name });
-    db.collection("articles").updateOne({ name }, { $set: { name } });
+    //db.collection("articles").updateOne({ name }, { $set: { name } });
+    
     article
         ? res.status(200).json(article)
         : res.send(" article doesn't exist");
@@ -15,15 +17,18 @@ app.get("/api/articles/:name", async (req, res) => {
 //upvotes
 app.put("/api/articles/:name/upvote", async (req, res) => {
     const { name } = req.params;
-    await db
-        .collection("articles")
-        .updateOne({ name }, { $inc: { upvotes: 1 } });
-    const article = await db.collection("articles").findOne({ name });
+    console.log({name})
+    
+        await db
+            .collection("articles")
+            .updateOne({ name }, { $inc: { upvotes: 1 } });
+        const article = await db.collection("articles").findOne({ name });
 
-    article
-        ? res.status(200).json(article)
-        : res.send(" article doesn't exist");
-});
+        article
+            ? res.status(200).json(article)
+            : res.send(" article doesn't exist");
+    
+})
 
 //comments
 app.post("/api/articles/:name/comments", async (req, res) => {
@@ -36,7 +41,7 @@ app.post("/api/articles/:name/comments", async (req, res) => {
         }
     );
     const article = await db.collection("articles").findOne({ name });
-
+console.log(article.comments)
     article
         ? res.status(200).json(article)
         : res.send(" article doesn't exist");
