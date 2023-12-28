@@ -19,6 +19,12 @@ function Navbar() {
                         About
                     </Link>
                 </li>
+                <li>
+                    <Link className="nav-link" to="/login">
+                        {" "}
+                        Login
+                    </Link>
+                </li>
             </ul>
         </nav>
     );
