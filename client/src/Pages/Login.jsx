@@ -1,28 +1,42 @@
 import { useState } from "react";
 import Register from "./Register";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import {getAuth,signInWithEmailAndPassword} from "firebase/auth"
+
+//---------------------------------------------------------------//
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [user, setUser] = useState({
         firstName: "",
-        lastName:"",
-        email:""
+        lastName: "",
+        email: "",
     });
+    
     const data = {
+        
         password,
         email,
     };
+
+    const navigate=useNavigate()
     const handleLogin = async () => {
-        const response = await axios.post("/api/login", data);
-        setUser(response.user);
-        console.log(response);
+        try{
+             await signInWithEmailAndPassword(getAuth(), email, password);
+             navigate('articles');
+             const response = await axios.post("/api/login", data);
+             console.log({ response });
+             setUser(response.user);
+             console.log(response);
+        }catch(err){setError(err)}
+       
     };
     return (
         <div className="login">
             <h1> Login</h1>
+            {error && <p className="error">{error}</p>}
             <input
                 type="text"
                 name="email"
