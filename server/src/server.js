@@ -48,18 +48,24 @@ app.post("/api/articles/:name/comments", async (req, res) => {
 //-----Login-----   //
 
 app.post("/api/login", async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, firstName } = req.body;
+    
     console.log({ password });
     try {
-        console.log("try");
+        console.log("try1");
         await db
             .collection("user")
-            .insertMany({ password: password }, { email: email });
+            .insertOne({ password,email, firstName });
         const user = await db.collection("user").findOne({ email });
-        user ? res.status(200).json(user) : res.send("user does not exist");
-    } catch {
-        (err) => console.log(err);
-    }
+        console.log({ user });
+        if (user ) {
+            res.status(200).json(user)
+            console.log("try3");
+         }else  res.send("user does not exist");  
+          
+    } catch(err){ console.log("error post/login",err)}
+        
+    
 });
 connectToDb(() => {
     app.listen(8000, () => console.log("listening on port 8000"));
