@@ -39,7 +39,9 @@ function Article() {
             <p>{articleInfo.content}</p>
 
             <div className="upvotes-section">
-                <p>This article has {articleInfo.upvotes} upvote(s)</p>
+                <p>
+                    This article has {articleInfo.upvotes} {articleInfo.upvotes <1 ? "upvotes" : "upvotes"}
+                </p>
 
                 <button onClick={handleUpvote}>UpVote</button>
             </div>
