@@ -6,6 +6,9 @@ import Article from "./Pages/Article";
 import ArticlesList from "./Pages/ArticlesList";
 import NotFoundPage from "./Pages/NotFoundPage";
 import Navbar from "./components/Navbar";
+import Register from "./Pages/Register"
+import Login from "./Pages/Login"
+
 
 function App() {
     return (
@@ -19,6 +22,8 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/articles/:articleId" element={<Article />} />
                     <Route path="/articles" element={<ArticlesList />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     
                     <Route path="*" element={<NotFoundPage />} />
                      {/* // the Route * is any route that is not defined */}
