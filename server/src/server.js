@@ -52,7 +52,7 @@ app.post("/api/login", async (req, res) => {
     
     console.log({ password });
     try {
-        console.log("try1");
+        
         await db
             .collection("user")
             .insertOne({ password,email, firstName });
@@ -60,7 +60,7 @@ app.post("/api/login", async (req, res) => {
         console.log({ user });
         if (user ) {
             res.status(200).json(user)
-            console.log("try3");
+           
          }else  res.send("user does not exist");  
           
     } catch(err){ console.log("error post/login",err)}
