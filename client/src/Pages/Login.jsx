@@ -26,10 +26,10 @@ function Login() {
         try{
              await signInWithEmailAndPassword(getAuth(), email, password);
              navigate('articles');
-             const response = await axios.post("/api/login", data);
-             console.log({ response });
-             setUser(response.user);
-             console.log(response);
+            //  const response = await axios.post("/api/login", data);
+            //  console.log({ response });
+            //  setUser(response.user);
+            //  console.log(response);
         }catch(err){setError(err)}
        
     };
