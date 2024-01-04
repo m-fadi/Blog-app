@@ -23,14 +23,13 @@ function Login() {
 
     const navigate=useNavigate()
     const handleLogin = async () => {
-        try{
-             await signInWithEmailAndPassword(getAuth(), email, password);
-             navigate('articles');
-            //  const response = await axios.post("/api/login", data);
-            //  console.log({ response });
-            //  setUser(response.user);
-            //  console.log(response);
-        }catch(err){setError(err)}
+        console.log("handle login")
+        try {
+            await signInWithEmailAndPassword(getAuth(), email, password);
+            navigate("/articles");
+        } catch (e) {
+            setError(e.message);
+        }
        
     };
     return (
