@@ -6,6 +6,7 @@ import CommentsList from "../components/CommentsList";
 import useUser from "../hooks/useUser";
 import { Link } from "react-router-dom";
 import Login from "./Login";
+import AddComment from "../components/AddComment";
 function Article() {
     const [articleInfo, setArticleInfo] = useState({
         upvotes: 0,
@@ -55,11 +56,12 @@ function Article() {
                     )}
                 </p>{" "}
             </div>
-            <CommentsList
-                comments={articleInfo.comments}
+{user? <AddComment
                 articleId={articleInfo.name}
                 setArticleInfo={setArticleInfo}
-            />
+            /> : <button> Login to comment</button> }
+           
+            <CommentsList comments={articleInfo.comments} />
         </>
     );
 }
